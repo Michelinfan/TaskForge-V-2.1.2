@@ -1,0 +1,63 @@
+{
+  "name": "taskforge",
+  "productName": "TaskForge",
+  "version": "2.1.2",
+  "description": "TaskForge - gestor de tareas de escritorio",
+  "main": "main.js",
+  "author": "TaskForge",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --win nsis"
+  },
+  "devDependencies": {
+    "electron": "^31.0.0",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "com.taskforge.app",
+    "productName": "TaskForge",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "index.html",
+      "styles.css",
+      "renderer.js",
+      "notification.mp3",
+      "icon.ico",
+      "package.json",
+      "notification.wav",
+      "notification-priority1.wav",
+      "notification-priority2.wav",
+      "notification-priority3.wav",
+      "notification-none.wav"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "artifactName": "TaskForge-Setup-${version}.exe",
+      "icon": "icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "TaskForge"
+    },
+    "asarUnpack": [
+      "notification-priority1.wav",
+      "notification-priority2.wav",
+      "notification-priority3.wav",
+      "notification-none.wav"
+    ]
+  }
+}

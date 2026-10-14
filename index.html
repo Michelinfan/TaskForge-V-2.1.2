@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TaskForge</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand"><span class="brand-dot"></span>TaskForge</div>
+    <button class="new-task" id="newTask">＋ Nueva tarea</button>
+    <nav>
+      <button class="nav active" data-view="inbox">▣ Bandeja de entrada <span id="inboxCount"></span></button>
+      <button class="nav" data-view="today">◷ Hoy <span id="todayCount"></span></button>
+      <button class="nav" data-view="upcoming">▤ Próximas</button>
+      <button class="nav" data-view="all">☷ Todas</button>
+    </nav>
+    <div class="section-title">PROYECTOS <button id="addProject">＋</button></div>
+    <div id="projects"></div>
+    <div class="sidebar-bottom">Tus datos se guardan localmente en este equipo.</div>
+  </aside>
+
+  <main class="main">
+    <header>
+      <div><h1 id="viewTitle">Bandeja de entrada</h1><p id="viewSubtitle"></p></div>
+      <input id="search" class="search" placeholder="⌕ Buscar tareas...">
+    </header>
+    <section class="task-panel">
+      <form id="taskForm" class="composer hidden">
+        <div class="composer-heading" id="taskFormTitle">Nueva tarea</div>
+        <input id="taskTitle" required maxlength="120" placeholder="¿Qué necesitas hacer?">
+        <div class="form-row">
+          <select id="taskPriority">
+            <option value="none">Sin prioridad</option><option value="p1">🔴 Prioridad 1</option>
+            <option value="p2">🟠 Prioridad 2</option><option value="p3">🔵 Prioridad 3</option>
+          </select>
+          <input id="taskDate" type="date"><input id="taskTime" type="time">
+          <select id="taskProject"></select>
+          <button class="primary" id="saveTask">Añadir</button><button type="button" class="ghost" id="cancelTask">Cancelar</button>
+        </div>
+      </form>
+      <div id="empty" class="empty hidden">No hay tareas aquí. 🎉</div>
+      <div id="taskList"></div>
+    </section>
+  </main>
+</div>
+<div id="projectDialog" class="dialog-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="projectDialogTitle">
+  <form id="projectForm" class="dialog-card">
+    <button type="button" id="projectDialogClose" class="dialog-close" aria-label="Cerrar">×</button>
+    <h2 id="projectDialogTitle">Nuevo proyecto</h2>
+    <p>Organiza tus tareas en un proyecto.</p>
+    <label for="projectName">Nombre del proyecto</label>
+    <input id="projectName" required maxlength="60" placeholder="Por ejemplo, Estudios">
+    <div id="projectError" class="project-error hidden"></div>
+    <div class="dialog-actions"><button type="button" class="ghost" id="cancelProject">Cancelar</button><button class="primary" type="submit">Crear proyecto</button></div>
+  </form>
+</div>
+<script src="renderer.js"></script>
+</body>
+</html>
