@@ -1,42 +1,33 @@
-name: Checkout
-    uses: actions/checkout@v4
 
-  - name: Setup Node.js
-    uses: actions/setup-node@v4
-    with:
-      node-version: 22
+name: Build TaskForge 2.1.2 for Windows
 
-  - name: Cache Electron downloads
-    uses: actions/cache@v4
-    with:
-      path: |
-        ~\AppData\Local\electron\Cache
-        ~\AppData\Local\electron-builder\Cache
-      key: ${{ runner.os }}-electron-${{ hashFiles('package.json') }}
-      restore-keys: |
-        ${{ runner.os }}-electron-
+on:
+  workflow_dispatch:
 
-  - name: Install dependencies
-    run: npm install
+permissions:
+  contents: read
 
-  - name: Build Windows installer
-    shell: powershell
-    run: |
-      $maxAttempts = 3
-      for ($attempt = 1; $attempt -le $maxAttempts; $attempt++) {
-        Write-Host "Build attempt $attempt of $maxAttempts"
-        npm run dist -- --publish never
-        if ($LASTEXITCODE -eq 0) { exit 0 }
-        if ($attempt -lt $maxAttempts) {
-          Write-Host "Build failed. Waiting 20 seconds before retry..."
-          Start-Sleep -Seconds 20
-        }
-      }
-      exit 1
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-  - name: Upload installer
-    uses: actions/upload-artifact@v4
-    with:
-      name: TaskForge-2.1.2-Windows
-      path: release/*.exe
-      if-no-files-found: error
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build Windows installer
+        run: npm run dist -- --publish never
+
+      - name: Upload installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: TaskForge-2.1.2-Windows
+          path: release/*.exe
+          if-no-files-found: error
